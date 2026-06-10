@@ -1,0 +1,15 @@
+[package]
+name = "aios-native-shell"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Native AIOS shell model"
+license.workspace = true
+
+[dependencies]
+aios-platform = { path = "../aios-platform" }
+aios-types = { path = "../aios-types" }
+
+[lib]
+path = "src/lib.rs"
+

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIOS Policy Decision",
+  "type": "object",
+  "required": ["decision", "reason"],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["allow", "deny", "requires_approval", "requires_verification"]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "required_approver_role": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "critical"]
+    }
+  }
+}
+

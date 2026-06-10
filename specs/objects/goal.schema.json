@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIOS Goal",
+  "type": "object",
+  "required": ["id", "title", "intent", "owner", "state"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "intent": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "urgent"],
+      "default": "normal"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["draft", "active", "paused", "completed", "failed", "cancelled"]
+    }
+  }
+}
+

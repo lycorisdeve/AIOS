@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIOS Tool ABI",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "description",
+    "input_schema",
+    "output_schema",
+    "permission_scope",
+    "risk_level",
+    "side_effects",
+    "rollbackable",
+    "requires_approval",
+    "audit_required"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "examples": ["erp.inventory.query"]
+    },
+    "version": {
+      "type": "string",
+      "examples": ["1.0.0"]
+    },
+    "description": {
+      "type": "string"
+    },
+    "input_schema": {
+      "type": "object"
+    },
+    "output_schema": {
+      "type": "object"
+    },
+    "permission_scope": {
+      "type": "string",
+      "examples": ["erp.inventory.read"]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "critical"]
+    },
+    "side_effects": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["read", "write", "delete", "external_send", "payment", "device_control"]
+      }
+    },
+    "rollbackable": {
+      "type": "boolean"
+    },
+    "requires_approval": {
+      "type": "boolean"
+    },
+    "audit_required": {
+      "type": "boolean"
+    }
+  }
+}
+

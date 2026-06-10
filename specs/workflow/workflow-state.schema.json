@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIOS Workflow State",
+  "type": "object",
+  "required": ["id", "goal_id", "state", "steps"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "goal_id": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["pending", "running", "waiting_for_approval", "completed", "failed", "cancelled"]
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "state"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": ["pending", "running", "completed", "failed", "skipped"]
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,14 @@
+[package]
+name = "aios-policy-kernel"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Policy kernel for AIOS capability decisions"
+license.workspace = true
+
+[dependencies]
+aios-types = { path = "../aios-types" }
+
+[lib]
+path = "src/lib.rs"
+

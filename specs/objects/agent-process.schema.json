@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIOS Agent Process",
+  "type": "object",
+  "required": ["id", "task_id", "agent_type", "capabilities", "state"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "agent_type": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resource_budget": {
+      "type": "object",
+      "properties": {
+        "max_runtime_ms": {
+          "type": "integer"
+        },
+        "max_tokens": {
+          "type": "integer"
+        },
+        "max_memory_mb": {
+          "type": "integer"
+        }
+      }
+    },
+    "state": {
+      "type": "string",
+      "enum": ["created", "running", "paused", "completed", "failed", "cancelled"]
+    }
+  }
+}
+

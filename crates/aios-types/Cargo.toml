@@ -1,0 +1,11 @@
+[package]
+name = "aios-types"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Shared AIOS system object types"
+license.workspace = true
+
+[lib]
+path = "src/lib.rs"
+

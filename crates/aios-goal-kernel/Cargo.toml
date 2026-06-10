@@ -1,0 +1,14 @@
+[package]
+name = "aios-goal-kernel"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Goal scheduling kernel for AIOS"
+license.workspace = true
+
+[dependencies]
+aios-types = { path = "../aios-types" }
+
+[lib]
+path = "src/lib.rs"
+

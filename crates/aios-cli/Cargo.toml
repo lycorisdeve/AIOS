@@ -1,0 +1,16 @@
+[package]
+name = "aios-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "AIOS command-line prototype"
+license.workspace = true
+
+[dependencies]
+aios-goal-kernel = { path = "../aios-goal-kernel" }
+aios-types = { path = "../aios-types" }
+
+[[bin]]
+name = "aios"
+path = "src/main.rs"
+

@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/aios-types",
+  "crates/aios-goal-kernel",
+  "crates/aios-policy-kernel",
+  "crates/aios-agent-runtime",
+  "crates/aios-platform",
+  "crates/aios-native-shell",
+  "crates/aios-daemon",
+  "crates/aios-cli"
+]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+authors = ["AIOS Contributors"]
+description = "AI-native operating system architecture prototype"
+repository = "https://github.com/your-org/aios"
+license = "UNLICENSED"

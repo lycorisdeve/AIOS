@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AIOS Intent Shell</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="aios-shell" aria-label="AIOS Intent Shell">
+      <header class="system-bar" aria-label="System status">
+        <div class="brand-mark">
+          <span class="brand-orb" aria-hidden="true"></span>
+          <span>AIOS</span>
+        </div>
+        <div class="active-context">
+          <span id="activeRoute">Intent Shell</span>
+        </div>
+        <div class="status-cluster">
+          <span>Wi-Fi</span>
+          <span>82%</span>
+          <time>09:41</time>
+        </div>
+      </header>
+
+      <section class="intent-stage" aria-label="Intent workspace">
+        <section class="ai-core-panel" aria-label="AIOS command center">
+          <div class="core-header">
+            <span class="core-state">
+              <span class="pulse" aria-hidden="true"></span>
+              System Ready
+            </span>
+            <span id="selectedApp" class="selected-app">Chat</span>
+          </div>
+
+          <div class="core-copy">
+            <p class="eyebrow">AIOS Core</p>
+            <h1 id="intentTitle">告诉张三，今晚吃瓦香鸡</h1>
+            <p id="intentSummary">
+              已识别为消息发送任务，正在调用聊天应用并生成待确认消息。
+            </p>
+          </div>
+
+        </section>
+
+        <section class="app-invocation" aria-label="Invoked application">
+          <div class="app-window">
+            <div class="window-chrome">
+              <div class="app-identity">
+                <span id="appIcon" class="app-icon">微</span>
+                <div>
+                  <p class="window-kicker">Invoked App</p>
+                  <h2 id="appTitle">微信</h2>
+                </div>
+              </div>
+              <div id="policyState" class="policy-state">等待确认</div>
+            </div>
+
+            <div id="appSurface" class="app-surface chat-surface">
+              <div class="chat-thread">
+                <div class="chat-row incoming">
+                  <span class="avatar">张</span>
+                  <p>晚上吃什么？</p>
+                </div>
+                <div class="chat-row outgoing draft">
+                  <p id="draftMessage">今晚吃瓦香鸡。</p>
+                  <span class="avatar">我</span>
+                </div>
+              </div>
+
+              <div class="confirmation-card">
+                <div>
+                  <span class="confirm-label">Message Preview</span>
+                  <strong id="confirmText">发送给 张三：今晚吃瓦香鸡。</strong>
+                </div>
+                <div class="confirm-actions">
+                  <button class="secondary-action" type="button">修改</button>
+                  <button id="confirmButton" class="primary-action" type="button">确认发送</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="context-panel" aria-label="Execution context">
+          <section class="context-card">
+            <div class="context-title">
+              <span>Execution</span>
+              <small id="executionState">Preview</small>
+            </div>
+            <ol id="executionSteps" class="execution-steps">
+              <li class="done">理解目标</li>
+              <li class="done">定位联系人</li>
+              <li class="done">调用聊天应用</li>
+              <li class="running">等待用户确认</li>
+            </ol>
+          </section>
+
+          <section class="context-card">
+            <div class="context-title">
+              <span>Policy</span>
+              <small>Low Risk</small>
+            </div>
+            <div class="policy-grid">
+              <div>
+                <strong>App</strong>
+                <span id="policyApp">微信</span>
+              </div>
+              <div>
+                <strong>Action</strong>
+                <span id="policyAction">Send Message</span>
+              </div>
+              <div>
+                <strong>Scope</strong>
+                <span>chat.write.once</span>
+              </div>
+              <div>
+                <strong>Audit</strong>
+                <span>Enabled</span>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <form id="floatingIntentBar" class="intent-bar floating-intent-bar" aria-label="System intent input">
+        <button class="drag-handle" type="button" aria-label="移动输入框">
+          <span></span>
+          <span></span>
+        </button>
+        <button class="voice-button" type="button" aria-label="语音输入">
+          <span class="mic-icon" aria-hidden="true"></span>
+        </button>
+        <label class="intent-input">
+          <span class="sr-only">输入系统目标</span>
+          <input id="intentInput" type="text" placeholder="告诉张三，今晚吃瓦香鸡" />
+        </label>
+        <button class="submit-button" type="submit" aria-label="执行目标">
+          <span class="send-icon" aria-hidden="true"></span>
+        </button>
+      </form>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

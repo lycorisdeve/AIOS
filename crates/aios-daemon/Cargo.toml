@@ -1,0 +1,18 @@
+[package]
+name = "aios-daemon"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "AIOS local daemon prototype"
+license.workspace = true
+
+[dependencies]
+aios-agent-runtime = { path = "../aios-agent-runtime" }
+aios-goal-kernel = { path = "../aios-goal-kernel" }
+aios-policy-kernel = { path = "../aios-policy-kernel" }
+aios-types = { path = "../aios-types" }
+
+[[bin]]
+name = "aiosd"
+path = "src/main.rs"
+
