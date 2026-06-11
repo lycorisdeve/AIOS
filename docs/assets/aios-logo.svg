@@ -1,0 +1,30 @@
+<svg width="220" height="220" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="core" x1="42" y1="34" x2="182" y2="188" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#77E8FF"/>
+      <stop offset="0.52" stop-color="#8C8DFF"/>
+      <stop offset="1" stop-color="#D875F1"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="30" y1="40" x2="196" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="white" stop-opacity="0.24"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#2367B5" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="220" height="220" rx="50" fill="#0E1726"/>
+  <circle cx="110" cy="110" r="78" fill="url(#core)" filter="url(#shadow)"/>
+  <circle cx="110" cy="110" r="78" fill="white" fill-opacity="0.08"/>
+  <circle cx="110" cy="110" r="58" stroke="url(#ring)" stroke-width="4"/>
+  <circle cx="110" cy="110" r="16" fill="white"/>
+  <path d="M110 51V79" stroke="white" stroke-opacity="0.86" stroke-width="7" stroke-linecap="round"/>
+  <path d="M110 141V169" stroke="white" stroke-opacity="0.86" stroke-width="7" stroke-linecap="round"/>
+  <path d="M51 110H79" stroke="white" stroke-opacity="0.86" stroke-width="7" stroke-linecap="round"/>
+  <path d="M141 110H169" stroke="white" stroke-opacity="0.86" stroke-width="7" stroke-linecap="round"/>
+  <path d="M68 68L88 88" stroke="white" stroke-opacity="0.62" stroke-width="6" stroke-linecap="round"/>
+  <path d="M132 132L152 152" stroke="white" stroke-opacity="0.62" stroke-width="6" stroke-linecap="round"/>
+  <path d="M152 68L132 88" stroke="white" stroke-opacity="0.62" stroke-width="6" stroke-linecap="round"/>
+  <path d="M88 132L68 152" stroke="white" stroke-opacity="0.62" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -17,4 +17,4 @@ version = "0.1.0"
 authors = ["AIOS Contributors"]
 description = "AI-native operating system architecture prototype"
 repository = "https://github.com/your-org/aios"
-license = "UNLICENSED"
+license = "MIT"
