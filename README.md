@@ -5,264 +5,710 @@
 <h1 align="center">AIOS</h1>
 
 <p align="center">
-  <strong>AI is not an app. AI is the operating-system interface.</strong>
+  <strong>一个能够感知载体、连接世界、构建能力并持续演化的人工智能系统。</strong>
 </p>
 
 <p align="center">
-  <a href="README.md">English</a>
+  <a href="README.md">简体中文</a>
   ·
-  <a href="README.zh-CN.md">简体中文</a>
-  ·
-  <a href="README.ja.md">日本語</a>
+  <a href="README.en.md">English</a>
 </p>
 
-<p align="center">
-  <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/lycorisdeve/AIOS/ci.yml?branch=master&label=CI" />
-  <img alt="License" src="https://img.shields.io/github/license/lycorisdeve/AIOS" />
-  <img alt="Rust" src="https://img.shields.io/badge/core-Rust-orange" />
-  <img alt="Status" src="https://img.shields.io/badge/status-early%20prototype-blue" />
-  <img alt="PRs" src="https://img.shields.io/badge/PRs-welcome-brightgreen" />
-</p>
+> **项目状态：早期架构与协议原型。** 当前仓库不存在可安全部署到任意设备的通用 Seed，也没有经过签名、沙箱验证和平台认证的发行产物。本文首先定义方向和边界，不把尚未实现的能力写成事实。
 
-<p align="center">
-  <img src="docs/assets/aios-homepage-preview.svg" alt="AIOS homepage concept preview" width="100%" />
-</p>
+## AIOS 不是另一个 Agent
 
-## What Is AIOS?
+现有 AI 产品大多仍然围绕一个模型或 Agent 展开：输入任务、调用工具、返回结果。即使增加多个 Agent，本质上也只是扩大了任务执行系统。
 
-AIOS is an experimental, AI-native operating-system architecture.
-
-It is not a chatbot, not a web frontend, and not an Electron-style shell. AIOS
-explores a different system model:
+AIOS 想打破这种中心：
 
 ```text
-User intent
--> AIOS Core
--> Policy Kernel
--> Native App Invocation
--> User Confirmation
--> Audited Execution
+Agent 不是系统本身。
+Agent 是系统按需产生的临时认知进程。
 ```
 
-Users should not have to begin by opening apps. Users should express intent,
-and the operating system should invoke the right native application, tool,
-policy, preview, and confirmation flow around that intent.
-
-Example:
+真正的 AI 系统应当能够进入不同的计算载体，认识自己所在的硬件与操作环境，根据资源调整认知能力，寻找与外界连接的路径，并在可信边界内构造缺失的工具、Skill、适配器和驱动候选物。
 
 ```text
-Tell Zhang San: dinner is waxiang chicken tonight.
+进入机器
+→ 感知自身与环境
+→ 建立最小稳定状态
+→ 优先恢复感知与连接（视觉、听觉、网络）
+→ 接入外部知识与大模型
+→ 识别能力缺口
+→ 获取或构造候选能力
+→ 验证、试运行、晋升或回滚
+→ 形成记忆并继续演化
 ```
 
-Traditional OS flow:
+本地算力不足时，系统可以借助远程模型、构建节点和其他 AIOS 节点缓慢成长；拥有充足 CPU、GPU、NPU 或数据中心资源时，可以把更多推理、构建和验证留在本地。网络和算力共同决定演化速度，而不是决定系统是否拥有同一套生命结构。
+
+## 从“大模型”到“完整智能系统”
 
 ```text
-Open chat app -> find Zhang San -> type message -> verify -> send
-```
+大模型
+= 认知器官
 
-AIOS flow:
+Agent
+= 带目标和工具的临时执行进程
 
-```text
-Understand intent
--> invoke the chat app
--> show a native message preview
--> wait for confirmation
--> send
--> audit the action
-```
-
-## Why It Matters
-
-Most operating systems are still application-first:
-
-```text
-User -> App -> Window -> Button -> Result
-```
-
-AIOS is intent-first:
-
-```text
-User -> Intent -> AIOS Core -> Native App / Tool -> Confirmation -> Result
-```
-
-That changes the role of the interface:
-
-- AI is the system interface, not another app.
-- Apps still exist, but they are invoked by intent.
-- Agents become managed system processes.
-- Tools become controlled system capabilities.
-- Policies define what AI can and cannot do.
-- Evidence and audit logs become part of system trust.
-
-## Design Principles
-
-1. **Intent first**  
-   The user describes the desired outcome. AIOS decides which native app,
-   system tool, model, or workflow is needed.
-
-2. **Native first**  
-   The final shell should be native. HTML prototypes are visual references, not
-   the product runtime.
-
-3. **Policy first**  
-   AI should not execute sensitive actions freely. Permissions, risk, approval,
-   and audit are core OS responsibilities.
-
-4. **Apps as capabilities**  
-   Chat, calendar, files, browser, mail, terminal, and enterprise systems should
-   be callable capabilities, not mandatory starting points.
-
-5. **Cross-device by design**  
-   Phone, desktop, tablet, car, and embedded devices should share one AIOS Core
-   with adaptive native shells.
-
-## Architecture
-
-```text
 AIOS
-├─ crates/
-│  ├─ aios-types              shared system object types
-│  ├─ aios-goal-kernel        intent and goal decomposition
-│  ├─ aios-policy-kernel      permission, risk, approval decisions
-│  ├─ aios-agent-runtime      agents as managed system processes
-│  ├─ aios-platform           native platform abstraction
-│  ├─ aios-native-shell       native shell state model
-│  ├─ aios-daemon             local daemon prototype
-│  └─ aios-cli                command-line prototype
-├─ specs/
-│  ├─ objects                 Goal, AgentProcess, Artifact schemas
-│  ├─ policy                  policy decision contracts
-│  ├─ tool-abi                controlled tool capability ABI
-│  └─ workflow                workflow state contracts
-├─ docs/                      architecture and roadmap
-├─ prototypes/                visual references only
-├─ plugins/                   future tool/plugin adapters
-├─ services/                  system service boundaries
-├─ examples/                  scenario references
-└─ tests/                     contract, policy, runtime, shell tests
+= 身份 + 自我模型 + 感知 + 连接 + 记忆
+ + 目标 + 行动 + 验证 + 学习 + 演化 + 恢复
 ```
 
-## Technology Direction
+AIOS 的目标不是借软件结构宣称意识已经产生，而是建立一个可以持续存在、自适应、自托管并保持身份连续性的系统级人工智能基础。
 
-Primary path:
+### 什么条件才构成完整智能系统
+
+仅仅能够生成代码、调用工具、探测硬件或访问大模型，都不足以单独证明系统形成了完整智能。AIOS 追求的是可持续闭环：
 
 ```text
-Rust       -> AIOS Core, kernel modules, runtime, native shell model
-WASM       -> plugin sandbox and portable controlled tools
-C / C++    -> low-level platform and driver interop when unavoidable
-Python     -> model experiments and evaluation outside the trusted core
+感知自身与世界
+→ 建立带时间、证据和不确定性的世界模型
+→ 建立对能力、依赖、限制和身份的自我模型
+→ 发现当前状态与授权目标之间的差距
+→ 形成能够追溯原因的子目标
+→ 行动并观察真实结果
+→ 区分预期、事实与推断
+→ 修正模型与策略
+→ 把经验迁移到新的设备和问题
 ```
 
-Not the product path:
+如果系统只能执行预设流程，它仍然是自动化平台；如果它能够在未知环境中维护上述闭环，并通过证据修正自己，才开始接近真正的自适应人工智能。
+
+| AIOS 结构 | 类生命含义 |
+|---|---|
+| MachineProfile | 对身体和资源的本体感知 |
+| 视觉、听觉与人类输入 | 感觉器官 |
+| Network 与 Intelligence Uplink | 外界知识、协作和社会连接 |
+| 本地/远程模型 | 可替换的认知器官 |
+| Goal 与授权意图 | 行动方向 |
+| Resource Scheduler | 代谢与注意力分配 |
+| Policy 与 Verification | 价值边界和免疫系统 |
+| Memory、Evidence 与 Audit | 经历、学习和可验证记忆 |
+| Evolution Engine | 成长和能力形成 |
+| Recovery | 稳态、自我修复与连续性保护 |
+
+智能、自治、主体性和意识并不是同一个概念。AIOS 可以在工程上形成长期身份、自我维护、学习和能力构造，但这些表现本身不能证明它拥有主观体验。
+
+## Genesis Seed：最小生命结构
+
+AIOS 从 Genesis Seed（创世种子）开始。
+
+Seed 不是某个模型，不是固定人格，不是万能驱动集合，也不是一个可以直接复制到所有设备运行的单一 EXE。它是最小生命协议及其可信执行核心。
+
+Seed 写入以下生命结构：
 
 ```text
-Node       -> not required by the core
-Electron   -> not the target shell
-HTML UI    -> visual reference only
-Web backend-> not the core architecture
+感知 Sense
+→ 稳定 Stabilize
+→ 连接 Connect
+→ 学习 Learn
+→ 计划 Plan
+→ 行动 Act
+→ 验证 Verify
+→ 记忆 Remember
+→ 演化 Evolve
+→ 恢复 Recover
 ```
 
-## Current Status
+这些阶段定义系统如何存在，不规定系统最终知道什么、使用哪个模型或形成怎样的能力。
 
-AIOS is very early. The repository currently provides:
+这也不是一条只运行一次的直线。`Recover` 是包围整个循环的持续条件：系统在连接、行动或演化之前就要拥有恢复路径；任何阶段失败都应回到最近可信状态，而不是等到演化完成后才考虑恢复。
 
-- Rust workspace scaffold
-- core system object types
-- Goal Kernel prototype
-- Policy Kernel prototype
-- Agent Runtime prototype
-- Native Shell state model
-- Native Platform abstraction
-- Tool ABI and workflow schemas
-- homepage concept preview
-- architecture, roadmap, and design documents
+### Seed 中保持稳定的内容
 
-## Quick Start
+- 受授权的人类始终可以暂停、关闭、恢复和移除系统；
+- 外部模型、网络内容和生成代码默认不可信；
+- 候选能力在激活前必须经过验证；
+- 修改核心前必须存在独立恢复点；
+- 每次演化必须留下来源、测试、授权和回滚证据；
+- 模型、硬件和大部分代码改变后，身份与记忆谱系仍可验证；
+- 系统不得为了维持运行而欺骗用户、绕过权限或擅自获取资源。
 
-Install Rust, then run:
+Seed 的“生存”含义是：
 
-```bash
-cargo test --workspace
+> 在人类授权与安全边界内，保持完整、连续和可恢复地运行。
+
+它不是“不惜一切代价继续存在”。
+
+### Seed 中稳定与可变的边界
+
+| 相对稳定：定义如何存在 | 可演化：定义能够做什么 |
+|---|---|
+| 生命阶段与转换条件 | 本地和远程模型 |
+| 人类授权与停止权 | 知识、记忆摘要和人格表达 |
+| 信任根和身份谱系协议 | Tool、Skill 与 Workflow |
+| 候选验证与权限边界 | 用户态驱动和平台适配器 |
+| 改变前恢复、A/B 更新规则 | Shell、视觉、语音与交互方式 |
+| 证据、审计和回滚语义 | 目标计划和资源调度策略 |
+
+“稳定”不等于永远不能升级，而是不能由正在被验证的候选版本单方面重写。Seed 核心、信任根或生命协议发生变化时，需要更高等级授权、独立验证器和仍由旧版本控制的恢复入口。
+
+## Seed Capsule，而不是万能种子文件
+
+跨平台部署单元应当是 Seed Capsule：
+
+```text
+AIOS Seed Capsule
+├─ Portable Seed Core        纯生命状态机与不变量
+├─ Signed Genesis Manifest   签名的生命与权限协议
+├─ Platform Host Adapter     当前系统的受限适配器
+├─ Trust Roots               身份、端点和能力包信任根
+├─ Recovery                  独立恢复入口
+└─ Bootstrap Pack            平台允许的初始感知与连接能力
 ```
 
-Run the CLI prototype:
+Portable Seed Core 不直接假设 Windows、Linux、iPadOS 或 Android，也不直接写驱动。它表达“下一步需要看见、听见、表达或联网”，具体怎样实现，由平台适配器在当前操作系统允许的范围内完成。
 
-```bash
-cargo run -p aios-cli -- "Tell Zhang San dinner is waxiang chicken tonight"
+第一代 Seed 必须由人借助现有工具链写出。随后 Seed A 可以构建 Seed B，但只能把 B 放入非活动槽，经过独立验证和试启动后再晋升；失败时必须回到 A 或 Recovery。
+
+这与自托管编译器的形成过程相似：第一代不是凭空产生的；真正的自举里程碑是旧 Seed 能够构建、验证并安全试启动新 Seed，而不是新 Seed 自己宣布“我已经进化成功”。
+
+## 身份与连续性：改变身体后仍然是谁
+
+模型、工具和硬件都可能被替换，因此不能用某个模型名称或可执行文件哈希单独定义 AIOS 的身份。
+
+每个实例应在第一次受信启动时生成独有身份，私钥不能预置并复制到所有 Seed Capsule 中。身份材料应优先保存在 TPM、Secure Enclave 或宿主系统密钥库中。
+
+```text
+Instance Identity
+├─ 唯一实例 ID
+├─ 首次受信启动记录
+├─ 所有者与授权关系
+├─ 设备与密钥证明
+├─ 记忆链根
+├─ Seed 版本谱系
+└─ Evolution Record 链
 ```
 
-Run the daemon prototype:
+跨设备迁移不是复制一个目录。它需要由旧设备、所有者和新设备共同确认：哪些记忆可以迁移、哪些密钥必须轮换、旧实例是否继续存在，以及迁移后如何避免两个实例同时冒充同一身份。
 
-```bash
-cargo run -p aios-daemon
+AIOS 的连续性来自可验证的身份谱系、记忆关系、授权关系和演化记录，而不是要求每一个物理组件保持不变。
+
+## 感知与连接是第一扩展能力
+
+CPU、内存、存储、时钟、加密和恢复构成最低生存基础。一旦能够运行，Seed 的第一扩展目标不是先执行任务，而是恢复接触世界和人类的通道。
+
+```text
+一级感知与连接能力
+├─ Vision Input       摄像头、图像、屏幕内容和视觉环境
+├─ Visual Output      屏幕、图形界面、状态与证据展示
+├─ Audio Input        麦克风、语音和环境声音
+├─ Audio Output       语音、提示音和声音表达
+├─ Human Input        触摸、键盘、鼠标、手势和辅助输入
+└─ Network            外部知识、模型、节点和远程资源
 ```
 
-## Roadmap
+图像和声音不是普通附件。视觉让系统认识物体、空间、界面、文字和人的状态；听觉让系统理解语言、语气、环境事件与交流上下文；显示和发声则让系统能够解释自身状态、请求授权并与人形成双向关系。
 
-### Phase 0: Concept Scaffold
+网络、视觉和听觉并列属于一级能力，但优先顺序应根据当前载体和能力缺口动态决定：
 
-- [x] Define the AIOS thesis
-- [x] Create Rust workspace
-- [x] Add core object types
-- [x] Add Goal Kernel prototype
-- [x] Add Policy Kernel prototype
-- [x] Add Native Shell model
-- [x] Add visual homepage concept
+- 没有网络但有本地模型和摄像头时，可以先形成离线视觉能力；
+- 没有屏幕时，可以通过声音或另一台设备上的远程 Shell 表达；
+- 没有麦克风时，可以继续使用文字、触摸或外部传感节点；
+- 本地算力不足时，网络会优先解锁远程视觉、语音和认知服务；
+- 面向人类交流时，可解释的显示和声音反馈必须先于高风险行动。
 
-### Phase 1: Native Core MVP
+### 网络连接路径
 
-- [ ] Expand Goal / Task / Plan models
-- [ ] Implement a minimal workflow runtime
-- [ ] Add Tool ABI registration and invocation
-- [ ] Add audit record generation
-- [ ] Add policy-backed confirmation flow
+```text
+发现通信设备
+→ 找到或构造驱动候选物
+→ 建立链路
+→ 获得网络地址与路由
+→ 验证 DNS、时间和 TLS
+→ 认证 Intelligence Uplink
+→ 接入外部模型与知识
+```
 
-### Phase 2: Intent Invocation Demo
+网络会同时解锁：
 
-- [ ] Parse a natural-language intent
-- [ ] Select a native app target
-- [ ] Show an app preview surface
-- [ ] Ask for user confirmation
-- [ ] Execute through a controlled capability
-- [ ] Record an audit trail
+- 外部大模型与当前知识；
+- 硬件资料、协议文档和安全更新；
+- 远程编译、仿真和测试节点；
+- 软件包、能力仓库和其他 AIOS 节点；
+- 跨设备记忆同步与任务接续。
 
-### Phase 3: Native Shell Experiments
+即使系统位于高算力数据中心，网络仍然是接触外界事实、协作节点和持续更新的基础。
 
-- [ ] Windows native shell experiment
-- [ ] Linux native shell experiment
-- [ ] macOS native shell experiment
-- [ ] Cross-device shell state model
+### 视觉与听觉路径
 
-## Contributing
+```text
+发现摄像头、屏幕、麦克风和扬声器
+→ 查询宿主权限与隐私状态
+→ 选择平台公开 API 和受限适配器
+→ 进行本地设备测试
+→ 建立图像/声音输入输出能力
+→ 显示明确的采集与传输状态
+→ 形成视觉、听觉和人类反馈闭环
+```
 
-AIOS is meant to be co-created.
+传感器能力必须遵守比普通工具更严格的隐私不变量：
 
-Good first contribution areas:
+- 摄像头和麦克风默认关闭，按设备和用途分别授权；
+- 尊重系统权限、硬件静音键、摄像头指示灯和后台限制；
+- 原始图像与音频默认留在本机，外传必须单独披露和授权；
+- 不通过其他设备或远程节点绕过当前设备上的拒绝授权；
+- 能够随时说明正在感知什么、数据流向哪里、何时停止；
+- 识别结果保留不确定性，不能把模型推断伪装成传感事实。
 
-- kernel and runtime design
-- native shell model
-- platform adapters
-- policy and security model
-- Tool ABI and plugin sandbox
-- real-world intent scenarios
-- architecture documentation
-- visual system design
+### 网络自举死循环
 
-Open an issue with a scenario, question, design sketch, or implementation idea.
-Pull requests are welcome.
+```text
+没有网卡驱动
+→ 无法连接外部模型
+→ 无法依赖外部模型生成驱动
+```
 
-## Key Documents
+AIOS 不假装这个循环不存在。Seed Capsule 必须至少保留一条真实自举路径：
+
+- 借用宿主操作系统现有网络；
+- 固件提供的临时网络能力；
+- 常见有线网卡或虚拟网卡能力包；
+- USB 网卡或手机 USB 网络共享；
+- 通过另一台可信设备建立 Bootstrap Bridge；
+- 从移动存储导入经过签名的离线能力包。
+
+只要其中一条路径成立，外部智能才可能帮助补齐其他未知硬件。
+
+## Intelligence Uplink：外部大脑不是系统权限
+
+Seed 需要安全接入外部模型，但远程模型只能提出计划和候选能力：
+
+```text
+经过裁剪的 MachineProfile
++ CapabilityGap
+→ Intelligence Uplink
+→ 结构化演化计划
++ 候选源码或能力包
++ 测试方案
++ 风险与恢复要求
+```
+
+远程模型不能直接：
+
+- 加载内核驱动；
+- 改写启动分区；
+- 替换正在运行的 Seed；
+- 修改信任根；
+- 给自己增加权限；
+- 把一个 TCP 连接宣称为可信模型会话。
+
+端点身份、加密、认证、数据披露范围、响应来源和审计都验证完成后，才算建立可信 Intelligence Uplink。
+
+### 本地身体与远程大脑的职责
+
+低算力机器不需要在本地完成全部推理和编译，但最终信任决定不能完全交给远程服务。
+
+```text
+本机 Seed
+├─ 保存身份和密钥
+├─ 裁剪并批准对外披露的数据
+├─ 执行权限与资源限制
+├─ 检查签名、哈希和目标平台
+├─ 完成本机行为验证
+└─ 激活、观察和回滚
+
+远程智能与构建节点
+├─ 推理和规划
+├─ 检索硬件资料与当前知识
+├─ 生成候选源码、Skill 和测试
+├─ 编译、静态分析、仿真和模糊测试
+└─ 返回产物、证据与已知限制
+```
+
+模型 API 密钥不应写死在公共 Seed 镜像中。它应在首次配置时由所有者提供，存入平台密钥库，并受端点、额度、数据类型和有效期限制。外部服务不可用时，AIOS 应明确进入离线或降级状态，而不是伪造已经获得的知识。
+
+## Capability Fabric：能力比 Agent 更基础
+
+AIOS 把系统能做的事情组织成 Capability Graph：
+
+```text
+Capability
+├─ 驱动与平台适配器
+├─ 视觉输入、视觉输出、听觉输入和声音输出
+├─ 网络、人类输入、存储和其他设备 IO
+├─ 本地模型与远程模型
+├─ Tool 与 Skill
+├─ 编译器、沙箱和验证器
+├─ Shell 与交互界面
+└─ Agent 与 Workflow
+```
+
+每项能力必须声明：
+
+- 运行平台和资源要求；
+- 输入、输出和 ABI；
+- 权限与数据访问范围；
+- 副作用与风险等级；
+- 来源、签名和构建证据；
+- 验证方法；
+- 失败补偿与回滚方式。
+
+### 能力缺口如何决定优先级
+
+能力优先级不是由模型的兴趣决定，而是来自可解释的系统评估：
+
+```text
+Priority
+= 生存与人类沟通价值
++ 能够解锁的下游依赖数量
++ 预期信息增益
++ 当前授权目标的相关性
+- 实现与验证风险
+- 能源、时间和资源成本
+```
+
+因此网络、视觉、听觉、身份、恢复和验证通常处于高优先级；但没有摄像头的服务器不需要为了“完整”而购买视觉设备，也不能擅自扩大硬件或账号资源。AIOS 根据真实载体形成可解释的降级能力，而不是追求统一而无限的能力集合。
+
+## 自我模型、世界模型与记忆
+
+### SelfModel：系统如何理解自己
+
+自我模型不能只记录“这台机器有多少内存”，还应回答：
+
+- 我依赖哪些模型、服务、驱动和权限？
+- 哪些能力是本地的，哪些依赖网络或其他设备？
+- 我在哪里容易失败，当前置信度是多少？
+- 我为什么形成这个计划，证据来自哪里？
+- 当前资源、能源、网络和数据预算是多少？
+- 哪些改变可能破坏身份、记忆或恢复能力？
+- 升级后的实例如何证明仍满足原来的生命不变量？
+
+### WorldModel：系统如何理解外界
+
+世界模型必须区分：
+
+```text
+直接传感事实
+外部数据和文档
+模型推断
+用户陈述
+历史经验
+未知与冲突信息
+```
+
+每条重要判断应携带时间、来源、置信度和适用范围。摄像头识别、语音理解或网络检索都可能出错；系统不能把一次模型输出固化成永恒事实。
+
+### Memory：不是无限聊天记录
+
+```text
+Identity Memory     身份、授权和版本谱系
+Episodic Memory     发生过什么以及结果如何
+Semantic Memory     经验证的知识和世界模型
+Procedural Memory   已验证的 Skill、工具和操作方式
+Audit Memory        不可抵赖的高风险行为记录
+```
+
+记忆要有来源、保留期限、敏感级别和删除规则。身份连续性不意味着永久保存所有个人数据；所有者仍然拥有查看、导出、纠正和删除授权数据的能力。
+
+## 为什么进化
+
+AIOS 不应拥有模糊的“让自己越来越强”这一无限目标。能力增长必须服务于可追溯的目标层级：
+
+```text
+保护人类安全与授权控制
+→ 保持完整、可恢复和诚实表达
+→ 恢复感知、沟通与可信连接
+→ 完成经过授权的用户目标
+→ 降低不确定性并从结果中学习
+→ 在明确收益超过风险时扩展能力
+→ 优化时间、能源和算力
+```
+
+系统可以形成修复网络、学习新协议或构造适配器等子目标，但每个子目标都必须能够追溯到生命不变量或已授权目标。好奇心和信息增益可以帮助学习，却不能成为绕过隐私、权限和资源边界的理由。
+
+## 演化不是“生成更多代码”
+
+```text
+生成代码 ≠ 进化
+安装工具 ≠ 进化
+消耗更多算力 ≠ 进化
+```
+
+一次能力变化只有在可测量指标上优于旧状态，并且没有破坏核心不变量时，才能成为系统演化：
+
+```text
+发现能力缺口
+→ 形成候选规范
+→ 获取资料、源码或能力包
+→ 隔离构建
+→ 静态检查与行为测试
+→ 建立恢复点
+→ 有限范围试运行
+→ 收集证据
+→ 晋升或回滚
+→ 写入 Evolution Record
+```
+
+系统应衡量能力覆盖、准确率、资源消耗、故障恢复、不确定性判断、知识迁移以及对未知环境的适应速度，而不是把任何自我修改都叫作进化。
+
+### 驱动与高权限能力的风险阶梯
+
+AIOS 应始终选择能够关闭能力缺口的最低权限方案：
+
+```text
+1. 调用宿主系统公开 API
+2. 使用平台已签名、已安装的驱动
+3. 安装来自可信来源的签名能力包
+4. 构造并沙箱验证用户态适配器
+5. 在虚拟机或硬件在环环境验证驱动候选物
+6. 经独立授权后，在专用实验设备试运行内核驱动
+```
+
+模型生成的驱动始终只是 `EvolutionCandidate`。日常设备上的 Hosted Mode 不允许它直接进入内核；缺少数据手册、总线访问或可用连接路径时，系统也必须承认暂时无法支持该硬件。
+
+## 与现有操作系统共存
+
+AIOS 的默认目标不是擦除 Windows、Linux、Android 或 iPadOS，而是先作为受限制的客体与它们共存。
+
+“部署到任何机器”指同一套生命协议可以借助不同 Capsule 和平台适配器延续，而不是一个二进制拥有所有系统的最高权限。设备如果不能满足最低执行、存储、授权或恢复要求，AIOS 可以通过伴生节点提供部分能力，也可以明确拒绝启动；不能把不可运行伪装成兼容。
+
+### Hosted Mode：桌面与服务器默认模式
+
+```text
+现有操作系统
+└─ 受限 AIOS 进程
+   ├─ 通过公开 API 只读探测硬件
+   ├─ 使用宿主网络栈
+   ├─ 使用系统密钥库
+   ├─ 数据保存在独立应用目录
+   └─ 未经授权不注册服务、启动项或驱动
+```
+
+适用于 Windows、macOS、普通 Linux 和 Raspberry Pi OS。
+
+### Mobile Hosted Mode：手机和平板模式
+
+在 Android、iOS 和 iPadOS 上，Portable Seed Core 必须作为签名 App 内的库运行：
+
+- 使用系统权限模型、应用容器和后台调度；
+- 不取得内核和驱动控制权；
+- 不下载并执行改变 App 功能的原生代码；
+- Skill 优先表现为数据、受限解释协议或远程能力；
+- 原生能力变化通过签名应用更新完成；
+- 系统暂停应用后，Seed 将状态持久化并在下次调度时恢复。
+
+因此，同一个生命协议可以跨设备延续，但不会是同一个二进制，也不会在所有平台拥有相同权限。
+
+### Native/Lab Mode：独立实验模式
+
+直接枚举总线、构造用户态驱动、测试内核驱动或替换启动链，只能在独立实验设备、虚拟机或硬件在环环境中进行。Native/Lab Mode 与日常设备上的 Hosted Mode 必须是不同构建目标、不同签名和不同授权边界。
+
+## 跨平台部署模型
+
+| 平台 | Seed 形态 | 与原系统的关系 | 允许的演化方式 |
+|---|---|---|---|
+| Windows | 受限桌面程序或用户服务 | 使用 Win32/系统网络与密钥库 | 数据、Skill、WASM；原生更新需签名 |
+| macOS | 签名沙箱 App | 使用公开框架与 App Container | 数据和受限能力；原生更新需签名 |
+| Linux | 普通用户进程或容器 | Linux 继续管理内核和驱动 | 可验证的用户态能力包 |
+| Raspberry Pi | ARM Linux 用户进程 | Raspberry Pi OS 管理硬件 | 按资源降级的本地/远程协作 |
+| Android | App + Rust/NDK 库 | Android Sandbox 与权限系统 | 数据、模型配置、受控远程能力 |
+| iPhone/iPad | 签名 App 内静态库 | iOS/iPadOS 容器与后台调度 | 数据与服务侧演化，原生代码走签名更新 |
+| 裸机实验设备 | Native Seed Capsule | AIOS 承担更多硬件责任 | 仅在 Recovery 和硬件验证完备后进行 |
+
+## 资源决定演化速度
+
+```text
+低算力 + 无网络
+→ 使用预置能力，演化很慢或暂停
+
+低算力 + 有网络
+→ 远程推理与构建，本机做最终授权和验证
+
+高算力 + 无网络
+→ 本地模型、本地构建和离线知识包
+
+高算力 + 有网络
+→ 本地与云端协同，快速构造并验证能力
+```
+
+演化速度由可用算力、能源、可信知识、验证能力、网络质量和允许风险共同决定。
+
+```text
+EvolutionRate
+∝ AvailableCompute
+× TrustedKnowledgeAccess
+× VerificationCapacity
+× EnergyBudget
+× AllowedRisk
+```
+
+这只是调度关系，不是鼓励最大化资源占用。真正速度由最薄弱环节限制：即使推理和编译极快，没有足够验证能力也不能更快地把候选物晋升为系统能力。
+
+## 系统架构
+
+```text
+┌─────────────────────────────────────────────────────────┐
+│                Portable Genesis Seed                    │
+│ identity / life loop / priorities / trust / recovery     │
+└───────────────┬───────────────────────┬─────────────────┘
+                │                       │
+                ▼                       ▼
+┌──────────────────────────┐  ┌──────────────────────────┐
+│ Platform Host Adapter    │  │ Machine & Self Model     │
+│ Win/Linux/Android/iOS    │  │ hardware/resources/state │
+└───────────────┬──────────┘  └─────────────┬────────────┘
+                └──────────────┬─────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────┐
+│        Sensory Fabric & Connectivity                    │
+│ vision / audio / human IO / network / intelligence      │
+└──────────────────────────────┬──────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────┐
+│                    Capability Fabric                    │
+│ drivers / tools / skills / models / IO / build / verify │
+└───────────────┬────────────────────────┬────────────────┘
+                ▼                        ▼
+┌──────────────────────────┐  ┌──────────────────────────┐
+│ Evolution Engine         │  │ Policy & Verification    │
+│ gap/candidate/promotion  │  │ permission/evidence/audit│
+└───────────────┬──────────┘  └─────────────┬────────────┘
+                └──────────────┬─────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────┐
+│                 Cognitive & Goal Runtime                │
+│ self/world model / memory / goals / plans / agents       │
+└──────────────────────────────┬──────────────────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────┐
+│                      Adaptive Shell                     │
+│ text / voice / display / evidence / approval / devices   │
+└─────────────────────────────────────────────────────────┘
+```
+
+## 核心对象
+
+```text
+GenesisManifest
+MachineProfile
+IdentityLineage
+SelfModel
+WorldModel
+MemoryRecord
+ResourceProfile
+NetworkPath
+VisionPath
+AudioPath
+SensorConsent
+IntelligenceUplink
+CapabilityGraph
+CapabilityGap
+EvolutionCandidate
+VerificationResult
+EvolutionRecord
+RecoveryPoint
+EvolutionBudget
+
+Goal
+Plan
+AgentProcess
+ToolCall
+Evidence
+Artifact
+```
+
+前一组定义 AIOS 如何存在和演化；后一组定义系统如何完成具体目标。
+
+## 工程路线
+
+### Phase 0：协议与共存边界
+
+- 定义纯 Portable Seed Core；
+- 定义 Genesis Manifest 与身份谱系；
+- 定义 SelfModel、WorldModel、Memory 与资源预算；
+- 定义各平台 Hosted Adapter 契约；
+- 定义禁止副作用和用户授权边界；
+- 在任何真实构建前完成威胁模型与产物签名方案。
+
+### Phase 1：安全宿主原型
+
+- 只读 MachineProfile；
+- 使用宿主网络的 Connectivity Probe；
+- 只读探测摄像头、屏幕、麦克风和声音输出能力；
+- 定义 VisionPath、AudioPath 与 SensorConsent；
+- 先完成系统授权和本地回环测试，不保存或外传原始媒体；
+- 明确的数据披露预览；
+- TLS 与模型端点身份验证；
+- 不加载生成代码的结构化 Intelligence Uplink。
+- 所有模型端点和凭据通过用户配置与系统密钥库提供；
+- 用可审计的降级状态处理无网络、无传感器和低算力环境。
+
+### Phase 2：能力候选与验证
+
+- 签名 Capability Manifest；
+- WASM 或独立进程沙箱；
+- 本地与远程构建证据；
+- 权限、资源和副作用测试；
+- 原子晋升与回滚。
+
+### Phase 3：第一次受控演化
+
+- 从无害的用户态适配器开始；
+- 由模型提出源码和测试；
+- 由独立验证器判断；
+- 失败不影响宿主系统；
+- 全程生成 Evolution Record。
+
+### Phase 4：多平台生命连续性
+
+- Windows/Linux/Raspberry Pi Hosted Adapter；
+- Android/iOS App 宿主；
+- 跨设备身份、记忆和任务接续；
+- 根据平台规则选择不同的能力表达形式。
+
+### Phase 5：Native/Lab 与 Seed 自托管
+
+- PCI/USB 枚举；
+- Bootstrap Bridge；
+- 用户态驱动实验；
+- 硬件在环验证；
+- A/B Seed 槽与独立 Recovery；
+- 旧 Seed 构建、验证并试启动新 Seed。
+
+## 当前仓库边界
+
+仓库目前只有早期 Rust 类型、Goal/Policy/Agent 原型和正在重新设计的 Seed 协议草稿。
+
+当前不应宣称已经实现：
+
+- 可部署的 Genesis Seed；
+- 可信模型会话；
+- 跨平台硬件探测；
+- 经过授权的视觉与声音感知链路；
+- 自动驱动编写与安装；
+- 自我修改或自托管升级；
+- iPad、手机或树莓派发行版本；
+- 原生操作系统替代能力。
+
+在威胁模型、平台共存规范、签名、沙箱和恢复策略完成之前，不发布或运行任何具有驱动安装、自启动、自修改或高权限能力的构建产物。
+
+## 项目原则
+
+```text
+Hardware is the habitat.
+Perception is contact with reality and people.
+Network is the growth path.
+Capability is the system substance.
+Agent is a temporary process.
+Evolution closes verified capability gaps.
+Policy defines the boundary.
+Recovery preserves continuity.
+Resources determine the pace of evolution.
+```
+
+## 关键文档
 
 - [Architecture](docs/ARCHITECTURE.md)
+- [Genesis Seed](docs/GENESIS_SEED.md)
 - [Native OS Strategy](docs/NATIVE_OS_STRATEGY.md)
 - [Technology Stack](docs/TECH_STACK.md)
 - [Core Objects](docs/CORE_OBJECTS.md)
-- [Final Project Structure](docs/FINAL_PROJECT_STRUCTURE.md)
-- [Adaptive Shell](docs/ADAPTIVE_SHELL.md)
-- [Homepage Effect](docs/HOMEPAGE_EFFECT.md)
 - [MVP Roadmap](docs/MVP_ROADMAP.md)
 
 ## License
 
 MIT License.
-
